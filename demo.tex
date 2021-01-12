@@ -1,0 +1,100 @@
+\documentclass[10pt]{beamer}
+
+\usetheme[progressbar=frametitle]{metropolis}
+\usepackage{appendixnumberbeamer}
+
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+
+\usepackage{xspace}
+\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
+
+\title{Copilots}
+\subtitle{Tolerating Slowdowns in Replicated State
+Machines}
+% \date{\today}
+\date{}
+\author{Khiem Ngo, Siddhartha Sen, Wyatt Lloyd}
+\institute{Princeton University, Microsoft Research - Presented at OSDI '20}
+\titlegraphic{\hfill\includegraphics[height=1.5cm]{logo.png}}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}{Table of contents}
+  \setbeamertemplate{section in toc}[sections numbered]
+  \tableofcontents%[hideallsubsections]
+\end{frame}
+
+\section[Introduction]{Introduction}
+
+\begin{frame}[fragile]{Overview}
+\textbf{Copilots} is a State Machine Replication (SMR) protocol aimed at tolerating replicas slowdowns. \\
+\smallbreak
+It is the first 1-slowdown-tolerant consensus protocol implementing SMR.
+\end{frame}
+
+
+\begin{frame}[fragile]{State-of-the-art}
+2 types of majority-based replication protocols: 
+\begin{itemize}
+    \item \textbf{single leader:} Multi-Paxos
+    \item \textbf{multiple leaders:} EPaxos
+\end{itemize}
+Those 2 protocols implement State Machine Replication that allows for $n=2f+1$ up to $f$ faults. \\
+\smallbreak
+However, if a replica $p \in n$ is not faulty but \textbf{slow} (misconfiguration, network issues, hardware failures...), it results in a \textbf{high latency}.
+\end{frame}
+
+
+\begin{frame}[fragile]{What's Copilots?}
+ \textbf{Copilots} 1-slowdown-tolerant replication protocol with: 
+ \begin{itemize}
+     \item  \textbf{Competitive performance} in case of no slowdown
+     \begin{itemize}
+         \item low latency
+         \item high throughput
+     \end{itemize}
+     \item \textbf{SMR properties}
+     \begin{itemize}
+         \item fault tolerance
+         \item linearizability
+     \end{itemize}
+     \item \textbf{High performance} with 1-replica slowdown compared to state-of-the-art algorithms (Multi-Paxos and EPaxos)
+ \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{What's a slowdown?}
+A replica $p$ is considered \textbf{slow} when its response to messages takes more than a threshold time $t$ over its normal response time.\\
+\smallbreak
+Only the time between when the machine receives a request  and sends a response back is considered.
+\smallbreak
+\textbf{1-slowdown-tolerance:} a  SMR protocol is 1-slowdown-tolerance if the response time T to a client request with 1 slow replica is close to the response time T' without any slow replica.
+\end{frame}
+
+\begin{frame}[fragile]{Existing protocols slowdown}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.5\textwidth}
+    \begin{center}
+        \textbf{Multi-Paxos}
+    \end{center}
+    \column{0.5\textwidth}
+    \begin{center}
+        \textbf{EPaxos}
+    \end{center}
+  \end{columns}
+
+\end{frame}
+
+
+{\setbeamercolor{palette primary}{fg=black, bg=yellow}
+\begin{frame}[standout]
+  Questions?
+\end{frame}
+}
+\end{document}
